@@ -169,6 +169,36 @@
       opacity: 0.7;
     }
 
+    .input-group--user-torn {
+      padding: 1rem;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.06) 0%, transparent 50%);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      border-radius: 8px;
+    }
+    .input-group--user-torn label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--neon);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .input-group--user-torn input {
+      border-color: rgba(0, 255, 136, 0.4);
+      background: var(--bg-dark);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .input-group--user-torn input::placeholder {
+      opacity: 0.8;
+    }
+    .input-group--user-torn input:focus {
+      border-color: var(--neon);
+      box-shadow: 0 0 0 2px var(--neon-glow), 0 0 20px rgba(0, 255, 136, 0.15);
+    }
+
     .hint {
       font-size: 0.65rem;
       color: var(--text-muted);
@@ -220,7 +250,7 @@
     }
 
     .share-percent {
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: var(--danger);
     }
@@ -360,9 +390,10 @@
 
     <div class="card">
       <div class="card-title">🌪️ 입력</div>
-      <div class="input-group">
+      <div class="input-group input-group--user-torn">
         <label for="userTorn">내 TORN 보유량</label>
         <input type="number" id="userTorn" placeholder="예: 1000" min="0" step="any" value="">
+        <p class="hint user-torn-krw" id="userTornKrw">약 — 원</p>
       </div>
       <div class="input-group">
         <label for="totalPool">전체 스테이킹 풀 규모 (TORN)</label>
@@ -500,6 +531,7 @@
       const totalStakedDisplay = document.getElementById('totalStakedDisplay');
       const priceDisplay = document.getElementById('priceDisplay');
       const kimchiPremiumDisplay = document.getElementById('kimchiPremiumDisplay');
+      const userTornKrwEl = document.getElementById('userTornKrw');
 
       function fetchTotalStaked() {
         const url = 'https://api.etherscan.io/v2/api?' + new URLSearchParams({
@@ -682,6 +714,12 @@
 
         shareBar.style.width = sharePercent + '%';
         shareText.textContent = sharePercent.toFixed(4) + '%';
+
+        if (userTornKrwEl) {
+          var userKrw = (userTorn > 0 && tornPriceKrw > 0) ? userTorn * tornPriceKrw : 0;
+          if (userKrw > 0 && kimchiPremiumAuto != null) userKrw = userKrw * (1 + kimchiPremiumAuto / 100);
+          userTornKrwEl.textContent = userKrw > 0 ? '약 ' + formatKrw(userKrw) : '약 — 원';
+        }
 
         function updateRow(ethAmount, el, krwEl) {
           var totalFee = ethAmount * FEE_RATE;
