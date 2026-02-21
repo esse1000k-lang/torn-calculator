@@ -7,7 +7,7 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Share+Tech+Mono&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0a0a0b;
@@ -28,7 +28,9 @@
     }
 
     body {
-      font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.015em;
       background: var(--bg-dark);
       color: var(--text);
       min-height: 100vh;
@@ -103,7 +105,7 @@
 
     .subtitle-telegram {
       font-family: 'Noto Sans KR', sans-serif;
-      font-weight: 400;
+      font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: none;
       font-size: 0.8rem;
@@ -121,9 +123,10 @@
     }
 
     .card-title {
-      font-size: 0.7rem;
+      font-size: 0.95rem;
+      font-weight: 700;
       color: var(--neon);
-      letter-spacing: 0.2em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       margin-bottom: 1.25rem;
       padding-bottom: 0.5rem;
@@ -141,6 +144,7 @@
     label {
       display: block;
       font-size: 0.7rem;
+      font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 0.4rem;
       letter-spacing: 0.05em;
@@ -151,6 +155,7 @@
       padding: 0.85rem 1rem;
       font-family: inherit;
       font-size: 1rem;
+      font-weight: 600;
       background: var(--bg-dark);
       border: 1px solid var(--border);
       border-radius: 4px;
@@ -169,7 +174,17 @@
       opacity: 0.7;
     }
 
-    .input-group--user-torn {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    .input-group--wallet-address {
       padding: 1rem;
       margin-left: -1rem;
       margin-right: -1rem;
@@ -178,41 +193,91 @@
       border: 1px solid rgba(0, 255, 136, 0.25);
       border-radius: 8px;
     }
-    .input-group--user-torn label {
+    .input-group--wallet-address label {
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--neon);
       letter-spacing: 0.06em;
       margin-bottom: 0.5rem;
     }
-    .input-group--user-torn input {
+    .input-group--wallet-address input {
       border-color: rgba(0, 255, 136, 0.4);
       background: var(--bg-dark);
       font-size: 1.1rem;
       font-weight: 600;
     }
-    .input-group--user-torn input::placeholder {
+    .input-group--wallet-address input::placeholder {
       opacity: 0.8;
     }
-    .input-group--user-torn input:focus {
+    .input-group--wallet-address input:focus {
       border-color: var(--neon);
       box-shadow: 0 0 0 2px var(--neon-glow), 0 0 20px rgba(0, 255, 136, 0.15);
     }
 
     .hint {
       font-size: 0.65rem;
+      font-weight: 500;
       color: var(--text-muted);
       margin-top: 0.35rem;
     }
 
+    .hint--row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .value-krw {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .data-value--row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .data-value--row .value-krw {
+      font-size: 0.8em;
+    }
+
+    .data-value--input input {
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+      font: inherit;
+      color: #fff;
+      font-weight: inherit;
+    }
+
+    .data-value--input input:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    .data-value--input input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
     .data-value {
       padding: 0.85rem 1rem;
+      min-height: 2.95rem;
       font-size: 1rem;
+      font-weight: 700;
       background: var(--bg-dark);
       border: 1px solid var(--border);
       border-radius: 4px;
       color: var(--neon);
-      font-weight: 600;
     }
 
     .data-value .price-krw-ref {
@@ -226,8 +291,47 @@
       font-weight: 400;
     }
 
+    .data-value.loading #unclaimedRewardDisplay,
+    .data-value.loading #walletTornBalanceDisplay {
+      color: var(--text-muted);
+    }
+
+    .data-value.loading .data-value--input input::placeholder {
+      color: var(--text-muted);
+    }
+
+    #walletStakedRow.loading {
+      color: var(--text-muted);
+    }
+
+    #unclaimedRewardDisplay,
+    #walletTornBalanceDisplay {
+      color: #fff;
+    }
+
     .data-value.error {
       color: var(--danger);
+    }
+
+    .data-value--total-pool input {
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+      font: inherit;
+      color: inherit;
+      font-weight: inherit;
+      cursor: default;
+    }
+    .data-value--total-pool input:focus {
+      outline: none;
+      box-shadow: none;
+    }
+    .data-value--total-pool input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
     }
 
     .card-dividend .share-block {
@@ -245,13 +349,14 @@
 
     .share-label {
       font-size: 0.7rem;
+      font-weight: 600;
       color: var(--text-muted);
       letter-spacing: 0.05em;
     }
 
     .share-percent {
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--danger);
     }
 
@@ -278,6 +383,7 @@
 
     .result-section-title {
       font-size: 0.7rem;
+      font-weight: 600;
       color: var(--neon);
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -309,6 +415,7 @@
     .result-label {
       color: var(--text-muted);
       font-size: 0.8rem;
+      font-weight: 500;
       flex-shrink: 0;
       padding-top: 0.1rem;
     }
@@ -323,21 +430,22 @@
 
     .result-value {
       color: var(--neon);
-      font-weight: 600;
+      font-weight: 700;
       text-shadow: 0 0 10px var(--neon-glow);
       font-size: 0.9rem;
     }
 
     .result-krw {
       font-size: 0.7rem;
+      font-weight: 500;
       color: var(--text-muted);
       margin-top: 0.2rem;
-      font-weight: 400;
     }
 
     .footer-note {
       text-align: center;
       font-size: 0.65rem;
+      font-weight: 500;
       color: var(--text-muted);
       margin-top: 2rem;
       line-height: 1.6;
@@ -373,40 +481,73 @@
     </header>
 
     <div class="card">
-      <div class="card-title">🌪️ 현재 시장 데이터</div>
-      <div class="input-group">
-        <label>현재 스테이킹 총량</label>
-        <div class="data-value" id="totalStakedDisplay">— 로딩 중</div>
-      </div>
+      <div class="card-title">🌪️ 정보</div>
       <div class="input-group">
         <label>현재 가격 (USD)</label>
-        <div class="data-value" id="priceDisplay">— 로딩 중</div>
+        <div class="data-value data-value--row" id="priceDisplayWrap">
+          <span id="priceDisplay">— 로딩 중</span>
+          <span class="price-krw-ref" id="priceDisplayKrw"></span>
+        </div>
       </div>
       <div class="input-group">
         <label>현재 김치프리미엄</label>
         <div class="data-value" id="kimchiPremiumDisplay">— 로딩 중</div>
       </div>
+      <div class="input-group">
+        <label for="totalPool">총 스테이킹 수량</label>
+        <div class="data-value data-value--row data-value--total-pool">
+          <input type="text" id="totalPool" placeholder="예: 2,610,453" value="" inputmode="numeric" autocomplete="off" readonly>
+          <span class="value-krw" id="totalPoolKrw"></span>
+        </div>
+      </div>
+      <p class="hint">* 달러 = USDT 가격, 김치 프리미엄은 국내·해외 비트코인을 기준으로 자동 반영됩니다. ( TORN 토큰 국내 미상장 )</p>
     </div>
 
     <div class="card">
-      <div class="card-title">🌪️ 입력</div>
-      <div class="input-group input-group--user-torn">
-        <label for="userTorn">내 TORN 보유량</label>
-        <input type="number" id="userTorn" placeholder="예: 1000" min="0" step="any" value="">
-        <p class="hint user-torn-krw" id="userTornKrw">약 — 원</p>
+      <div class="card-title">🌪️ 조회</div>
+      <div class="input-group input-group--wallet-address">
+        <label for="walletAddress">내 지갑 주소</label>
+        <input type="text" id="walletAddress" placeholder="예: 0x1234...abcd" value="" spellcheck="false" autocomplete="off">
+        <p class="hint hint--row" id="walletStakedRow">
+          <span id="walletStakedDisplay"></span>
+          <span class="value-krw" id="walletStakedKrw"></span>
+        </p>
       </div>
       <div class="input-group">
-        <label for="totalPool">전체 스테이킹 풀 규모 (TORN)</label>
-        <input type="number" id="totalPool" placeholder="예: 500000" min="0" step="any" value="">
+        <label for="userTorn">내 TORN 스테이킹</label>
+        <div class="data-value data-value--row data-value--input">
+          <input type="number" id="userTorn" placeholder="" min="0" step="any" value="">
+          <span class="value-krw" id="userTornKrw"></span>
+        </div>
       </div>
-      <p class="hint">* 원화는 해외 기준입니다. 김치프리미엄은 업비트·해외(BTC) 비교로 자동 계산되며, TORN은 국내 미상장이라 동일 비율 적용.</p>
+      <div class="input-group">
+        <label>미 출금 리워드</label>
+        <div class="data-value data-value--row">
+          <span id="unclaimedRewardDisplay"></span>
+          <span class="value-krw" id="unclaimedRewardKrw"></span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>지갑 TORN 보유</label>
+        <div class="data-value data-value--row">
+          <span id="walletTornBalanceDisplay"></span>
+          <span class="value-krw" id="walletTornBalanceKrw"></span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>합계 (스테이킹+리워드+지갑)</label>
+        <div class="data-value data-value--row">
+          <span id="totalHoldingsSumDisplay"></span>
+          <span class="value-krw" id="totalHoldingsSumKrw"></span>
+        </div>
+      </div>
     </div>
 
     <div class="card card-dividend">
-      <div class="card-title">🌪️ 출금 통과 시 내 배당</div>
+      <div class="card-title">🌪️ 배당</div>
       <div class="share-block">
         <div class="share-header">
-          <span class="share-label">풀 내 점유 비율</span>
+          <span class="share-label">내 스테이킹 지분</span>
           <span class="share-percent" id="shareText">0%</span>
         </div>
         <div class="share-bar-wrap">
@@ -501,25 +642,30 @@
 
     <p class="footer-note">
       ETH / USD / WBTC가 풀에서 출금될 때 0.3% 수수료가 발생하고, 그 수수료가 보유 비율대로 스테이커에게 배당됩니다.<br>
-      <a href="https://ipfs.io/ipfs/bafybeib4rg5gx7plrvzasrrqa3tcb3tnzm2goxhteaxsbem6hjpzsgihbu/" target="_blank" rel="noopener">토네이도 캐시 웹사이트</a>에서 스테이킹 및 청구가 가능합니다.<br>
-      <span class="hint">오류, 버그 문의는 <a href="https://t.me/koreatornadocash" target="_blank" rel="noopener">한국 텔레그램 방</a>으로 부탁드립니다.</span>
+      <a href="https://ipfs.io/ipfs/bafybeib4rg5gx7plrvzasrrqa3tcb3tnzm2goxhteaxsbem6hjpzsgihbu/" target="_blank" rel="noopener">토네이도 캐시 웹사이트</a>에서 스테이킹 및 청구가 가능합니다. <span class="hint">기타 문의는 <a href="https://t.me/koreatornadocash" target="_blank" rel="noopener">한국 텔레그램 방</a>으로 부탁드립니다.</span>
     </p>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
   <script>
     (function () {
       const ETHERSCAN_API_KEY = 'DSPENWH1HPF4H8P3WZNM6HCFT3G4238JM6';
       const TORN_TOKEN_ADDRESS = '0x77777FeDdddFfC19Ff86DB637967013e6C6A116C';
       const GOVERNANCE_CONTRACT_ADDRESS = '0x2F50508a8a3D323B91336FA3eA6ae50E55f32185';
+      const STAKING_CONTRACT_ADDRESS = '0x5efda50f22d34F262c29268506C5Fa42cB56A1Ce';
+      const REWARD_CONTRACT_ADDRESS = '0x5B3f656C80E8ddb9ec01Dd9018815576E9238c29';
+      const STAKING_RPC_URL = 'https://mainnet.infura.io/v3/fa141c0488f14212b912c04114f23f84';
       const TORN_DECIMALS = 18;
       const FEE_RATE = 0.003;
       const REFRESH_INTERVAL_MS = 60 * 1000;
       const NETWORK_ERR_MSG = '네트워크 오류';
+      const WALLET_ADDRESS_KEY = 'torn-calc-wallet';
       const WITHDRAW_AMOUNTS = [0.1, 1, 10, 100];
       const WITHDRAW_WBTC_AMOUNTS = [0.1, 1, 10];
       const WITHDRAW_USD_AMOUNTS = [100, 1000, 10000, 100000];
       const userTornInput = document.getElementById('userTorn');
       const totalPoolInput = document.getElementById('totalPool');
+      const totalPoolKrwEl = document.getElementById('totalPoolKrw');
       const shareBar = document.getElementById('shareBar');
       const shareText = document.getElementById('shareText');
       const divEls = { 0.1: document.getElementById('div01'), 1: document.getElementById('div1'), 10: document.getElementById('div10'), 100: document.getElementById('div100') };
@@ -529,9 +675,152 @@
       const divElsUsd = { 100: document.getElementById('divUsd100'), 1000: document.getElementById('divUsd1000'), 10000: document.getElementById('divUsd10000'), 100000: document.getElementById('divUsd100000') };
       const krwElsUsd = { 100: document.getElementById('krwUsd100'), 1000: document.getElementById('krwUsd1000'), 10000: document.getElementById('krwUsd10000'), 100000: document.getElementById('krwUsd100000') };
       const totalStakedDisplay = document.getElementById('totalStakedDisplay');
+      const priceDisplayWrap = document.getElementById('priceDisplayWrap');
       const priceDisplay = document.getElementById('priceDisplay');
+      const priceDisplayKrw = document.getElementById('priceDisplayKrw');
       const kimchiPremiumDisplay = document.getElementById('kimchiPremiumDisplay');
       const userTornKrwEl = document.getElementById('userTornKrw');
+      const walletAddressInput = document.getElementById('walletAddress');
+      const walletStakedDisplay = document.getElementById('walletStakedDisplay');
+      const unclaimedRewardDisplay = document.getElementById('unclaimedRewardDisplay');
+      const walletTornBalanceDisplay = document.getElementById('walletTornBalanceDisplay');
+      const totalHoldingsSumDisplay = document.getElementById('totalHoldingsSumDisplay');
+      const walletStakedKrwEl = document.getElementById('walletStakedKrw');
+      const unclaimedRewardKrwEl = document.getElementById('unclaimedRewardKrw');
+      const walletTornBalanceKrwEl = document.getElementById('walletTornBalanceKrw');
+      const totalHoldingsSumKrwEl = document.getElementById('totalHoldingsSumKrw');
+
+      function parseDisplayNum(text) {
+        if (!text || text === '—' || text === '조회 중…') return 0;
+        var n = parseFloat(String(text).replace(/,/g, '').replace(/\s/g, ''));
+        return isNaN(n) || n < 0 ? 0 : n;
+      }
+
+      function updateTotalHoldingsSum() {
+        if (!totalHoldingsSumDisplay) return;
+        var raw = (walletAddressInput && walletAddressInput.value) ? walletAddressInput.value.trim() : '';
+        var loading = unclaimedRewardDisplay && unclaimedRewardDisplay.textContent === '조회 중…';
+        if (!raw || loading) {
+          if (totalHoldingsSumDisplay) totalHoldingsSumDisplay.textContent = '';
+          if (totalHoldingsSumKrwEl) totalHoldingsSumKrwEl.textContent = '';
+          updateWalletKrwDisplays();
+          return;
+        }
+        var userTorn = parseNum(userTornInput ? userTornInput.value : '');
+        var reward = parseDisplayNum(unclaimedRewardDisplay ? unclaimedRewardDisplay.textContent : '');
+        var walletBal = parseDisplayNum(walletTornBalanceDisplay ? walletTornBalanceDisplay.textContent : '');
+        var sum = userTorn + reward + walletBal;
+        totalHoldingsSumDisplay.textContent = formatTorn2Decimals(sum);
+        updateWalletKrwDisplays();
+      }
+
+      var stakingAbi = ['function lockedBalance(address account) view returns (uint256)'];
+      var rewardAbi = ['function checkReward(address account) view returns (uint256 rewards)'];
+      var erc20Abi = ['function balanceOf(address account) view returns (uint256)'];
+
+      function fetchStakedBalanceAndReward(walletAddress) {
+        if (!window.ethers || !ethers.isAddress(walletAddress)) return Promise.resolve({ tornStr: null, rewardStr: null, walletTornStr: null });
+        var provider = new ethers.JsonRpcProvider(STAKING_RPC_URL);
+        var stakingContract = new ethers.Contract(STAKING_CONTRACT_ADDRESS, stakingAbi, provider);
+        var rewardContract = new ethers.Contract(REWARD_CONTRACT_ADDRESS, rewardAbi, provider);
+        var tornToken = new ethers.Contract(TORN_TOKEN_ADDRESS, erc20Abi, provider);
+        return Promise.all([
+          stakingContract.lockedBalance(walletAddress).then(function (wei) { return ethers.formatUnits(wei, TORN_DECIMALS); }),
+          rewardContract.checkReward(walletAddress).then(function (wei) { return ethers.formatUnits(wei, TORN_DECIMALS); }).catch(function () { return null; }),
+          tornToken.balanceOf(walletAddress).then(function (wei) { return ethers.formatUnits(wei, TORN_DECIMALS); }).catch(function () { return '0'; })
+        ]).then(function (results) {
+          return { tornStr: results[0], rewardStr: results[1], walletTornStr: results[2] };
+        });
+      }
+
+      function formatTorn2Decimals(numOrStr) {
+        var n = typeof numOrStr === 'number' ? numOrStr : parseFloat(numOrStr);
+        if (isNaN(n) || n < 0) return '0';
+        return n.toLocaleString('en', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+      }
+
+      var walletQueryTimer = null;
+      function setWalletSection(staked, reward, balance, sum, krw) {
+        if (walletStakedDisplay) walletStakedDisplay.textContent = staked;
+        if (walletStakedKrwEl) walletStakedKrwEl.textContent = krw;
+        if (unclaimedRewardDisplay) unclaimedRewardDisplay.textContent = reward;
+        if (unclaimedRewardKrwEl) unclaimedRewardKrwEl.textContent = krw;
+        if (walletTornBalanceDisplay) walletTornBalanceDisplay.textContent = balance;
+        if (walletTornBalanceKrwEl) walletTornBalanceKrwEl.textContent = krw;
+        if (totalHoldingsSumDisplay) totalHoldingsSumDisplay.textContent = sum;
+        if (totalHoldingsSumKrwEl) totalHoldingsSumKrwEl.textContent = krw;
+      }
+
+      function setWalletLoading(loading) {
+        var walletStakedRow = document.getElementById('walletStakedRow');
+        if (walletStakedRow) walletStakedRow.classList.toggle('loading', !!loading);
+        if (userTornInput && userTornInput.parentElement) userTornInput.parentElement.classList.toggle('loading', !!loading);
+        if (unclaimedRewardDisplay && unclaimedRewardDisplay.parentElement) unclaimedRewardDisplay.parentElement.classList.toggle('loading', !!loading);
+        if (walletTornBalanceDisplay && walletTornBalanceDisplay.parentElement) walletTornBalanceDisplay.parentElement.classList.toggle('loading', !!loading);
+        if (totalHoldingsSumDisplay && totalHoldingsSumDisplay.parentElement) totalHoldingsSumDisplay.parentElement.classList.toggle('loading', !!loading);
+      }
+
+      function onWalletAddressChange() {
+        var raw = (walletAddressInput && walletAddressInput.value) ? walletAddressInput.value.trim() : '';
+        if (!raw) {
+          setWalletSection('', '', '', '', '');
+          if (userTornInput) { userTornInput.value = ''; userTornInput.placeholder = ''; }
+          if (userTornKrwEl) userTornKrwEl.textContent = '';
+          setWalletLoading(false);
+          calculate();
+          return;
+        }
+        if (!window.ethers || !ethers.isAddress(raw)) {
+          setWalletSection('', '', '', '', '');
+          if (userTornInput) { userTornInput.value = ''; userTornInput.placeholder = ''; }
+          if (userTornKrwEl) userTornKrwEl.textContent = '';
+          setWalletLoading(false);
+          calculate();
+          return;
+        }
+        setWalletSection('조회 중…', '조회 중…', '조회 중…', '조회 중…', '');
+        if (userTornInput) { userTornInput.value = ''; userTornInput.placeholder = '조회 중…'; }
+        setWalletLoading(true);
+        if (walletQueryTimer) clearTimeout(walletQueryTimer);
+        walletQueryTimer = setTimeout(function () {
+          walletQueryTimer = null;
+          fetchStakedBalanceAndReward(raw)
+            .then(function (data) {
+              var tornStr = data.tornStr;
+              var rewardStr = data.rewardStr;
+              var walletTornStr = data.walletTornStr;
+              if (tornStr == null) {
+                setWalletSection('', '', '', '', '');
+                if (userTornInput) userTornInput.placeholder = '';
+                setWalletLoading(false);
+                return;
+              }
+              try { localStorage.setItem(WALLET_ADDRESS_KEY, raw); } catch (e) {}
+              setWalletLoading(false);
+              var n = parseFloat(tornStr);
+              if (isNaN(n)) n = 0;
+              if (walletStakedDisplay) walletStakedDisplay.textContent = formatTorn2Decimals(n) + ' 스테이킹됨';
+              if (userTornInput) {
+                userTornInput.placeholder = '';
+                userTornInput.value = n >= 1 ? Math.floor(n) : (n > 0 ? n : '');
+                calculate();
+              }
+              if (unclaimedRewardDisplay) unclaimedRewardDisplay.textContent = rewardStr != null ? formatTorn2Decimals(rewardStr) : '—';
+              if (walletTornBalanceDisplay) {
+                var walletTornNum = walletTornStr != null ? parseFloat(walletTornStr) : 0;
+                walletTornBalanceDisplay.textContent = formatTorn2Decimals(isNaN(walletTornNum) || walletTornNum < 0 ? 0 : walletTornNum);
+              }
+              updateTotalHoldingsSum();
+            })
+            .catch(function (err) {
+              var msg = (err && err.message) ? err.message : '조회 실패';
+              if (msg.indexOf('fetch') !== -1 || msg.indexOf('network') !== -1) msg = '네트워크 오류';
+              setWalletSection('— ' + msg, '', '', '', '');
+              if (userTornInput) userTornInput.placeholder = '';
+              setWalletLoading(false);
+            });
+        }, 400);
+      }
 
       function fetchTotalStaked() {
         const url = 'https://api.etherscan.io/v2/api?' + new URLSearchParams({
@@ -575,18 +864,29 @@
       var tornPriceKrw = 0;
       var kimchiPremiumAuto = null;
 
+      var DEFILLAMA_COINS = 'ethereum:0x77777FeDdddFfC19Ff86DB637967013e6C6A116C,ethereum:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2,ethereum:0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599';
+
       function fetchPrices() {
-        return fetch('https://api.coingecko.com/api/v3/simple/price?ids=tornado-cash,ethereum,bitcoin&vs_currencies=usd,krw')
+        var usdPromise = fetch('https://coins.llama.fi/prices/current/' + DEFILLAMA_COINS)
           .then(function (res) { return res.json(); })
           .then(function (data) {
-            if (data && data['tornado-cash']) {
-              if (typeof data['tornado-cash'].usd === 'number') tornPriceUsd = data['tornado-cash'].usd;
-              if (typeof data['tornado-cash'].krw === 'number') tornPriceKrw = data['tornado-cash'].krw;
-            }
-            if (data && data.ethereum && typeof data.ethereum.usd === 'number') ethPriceUsd = data.ethereum.usd;
-            if (data && data.bitcoin && typeof data.bitcoin.usd === 'number') btcPriceUsd = data.bitcoin.usd;
-            return { btcKrw: data && data.bitcoin && typeof data.bitcoin.krw === 'number' ? data.bitcoin.krw : null };
+            var coins = data && data.coins ? data.coins : {};
+            var tornCoin = coins['ethereum:0x77777FeDdddFfC19Ff86DB637967013e6C6A116C'];
+            var ethCoin = coins['ethereum:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'];
+            var btcCoin = coins['ethereum:0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'];
+            if (tornCoin && typeof tornCoin.price === 'number') tornPriceUsd = tornCoin.price;
+            if (ethCoin && typeof ethCoin.price === 'number') ethPriceUsd = ethCoin.price;
+            if (btcCoin && typeof btcCoin.price === 'number') btcPriceUsd = btcCoin.price;
           });
+        var krwPromise = fetch('https://api.coingecko.com/api/v3/simple/price?ids=tornado-cash,bitcoin&vs_currencies=krw')
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            if (data && data['tornado-cash'] && typeof data['tornado-cash'].krw === 'number') tornPriceKrw = data['tornado-cash'].krw;
+            return data && data.bitcoin && typeof data.bitcoin.krw === 'number' ? data.bitcoin.krw : null;
+          });
+        return Promise.all([usdPromise, krwPromise]).then(function (results) {
+          return { btcKrw: results[1] };
+        });
       }
 
       function fetchKimchiPremium(btcKrwGlobal) {
@@ -603,7 +903,8 @@
       }
 
       function setDataLoading(el, loading) {
-        el.classList.toggle('loading', loading);
+        if (!el || !loading) return;
+        el.classList.add('loading');
         el.classList.remove('error');
       }
 
@@ -614,8 +915,10 @@
       }
 
       function updateMarketData() {
-        setDataLoading(totalStakedDisplay, true);
-        setDataLoading(priceDisplay, true);
+        if (totalStakedDisplay) setDataLoading(totalStakedDisplay, true);
+        if (priceDisplayWrap) priceDisplayWrap.classList.add('loading');
+        if (priceDisplay) priceDisplay.textContent = '— 로딩 중';
+        if (priceDisplayKrw) priceDisplayKrw.textContent = '';
         if (kimchiPremiumDisplay) {
           kimchiPremiumDisplay.textContent = '— 로딩 중';
           kimchiPremiumDisplay.classList.add('loading');
@@ -626,24 +929,27 @@
             const formatted = totalStaked >= 1
               ? Math.floor(totalStaked).toLocaleString('en') + ' TORN'
               : '0 TORN';
-            totalStakedDisplay.textContent = formatted;
-            totalStakedDisplay.classList.remove('loading');
-            if (!totalPoolInput.value || parseFloat(totalPoolInput.value) === 0) {
-              totalPoolInput.value = Math.floor(totalStaked);
+            if (totalStakedDisplay) {
+              totalStakedDisplay.textContent = formatted;
+              totalStakedDisplay.classList.remove('loading');
+            }
+            if (!totalPoolInput.value || parseFloat(String(totalPoolInput.value).replace(/,/g, '')) === 0) {
+              totalPoolInput.value = Math.floor(totalStaked).toLocaleString('en');
               calculate();
             }
           })
           .catch(function (err) {
             var msg = err.message || '조회 실패';
             if (msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('NetworkError') !== -1 || msg.indexOf('Load failed') !== -1) msg = NETWORK_ERR_MSG;
-            setDataError(totalStakedDisplay, '— ' + msg);
+            if (totalStakedDisplay) setDataError(totalStakedDisplay, '— ' + msg);
           });
 
         fetchPrices()
           .then(function (data) {
             var usdStr = '$' + (tornPriceUsd < 0.01 ? tornPriceUsd.toFixed(6) : tornPriceUsd.toFixed(2));
-            priceDisplay.textContent = usdStr;
-            priceDisplay.classList.remove('loading');
+            if (priceDisplayWrap) priceDisplayWrap.classList.remove('loading');
+            if (priceDisplay) priceDisplay.textContent = usdStr;
+            if (priceDisplayKrw) priceDisplayKrw.textContent = '';
             return fetchKimchiPremium(data && data.btcKrw ? data.btcKrw : null);
           })
           .then(function (premium) {
@@ -653,18 +959,19 @@
               if (premium != null) kimchiPremiumDisplay.textContent = premium + '%';
               else kimchiPremiumDisplay.textContent = '—';
             }
-            var usdStr = '$' + (tornPriceUsd < 0.01 ? tornPriceUsd.toFixed(6) : tornPriceUsd.toFixed(2));
-            if (tornPriceKrw > 0) {
+            if (tornPriceKrw > 0 && priceDisplayKrw) {
               var krwVal = tornPriceKrw;
               if (premium != null) krwVal = krwVal * (1 + premium / 100);
-              priceDisplay.innerHTML = usdStr + ' <span class="price-krw-ref">' + Math.floor(krwVal).toLocaleString('ko-KR') + ' 원</span>';
-            }
+              priceDisplayKrw.textContent = Math.floor(krwVal).toLocaleString('ko-KR') + ' 원';
+            } else if (priceDisplayKrw) priceDisplayKrw.textContent = '';
             calculate();
           })
           .catch(function (err) {
             var msg = err.message || '조회 실패';
             if (msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('NetworkError') !== -1 || msg.indexOf('Load failed') !== -1) msg = NETWORK_ERR_MSG;
-            setDataError(priceDisplay, '— ' + msg);
+            if (priceDisplayWrap) { priceDisplayWrap.classList.remove('loading'); priceDisplayWrap.classList.add('error'); }
+            if (priceDisplay) priceDisplay.textContent = '— ' + msg;
+            if (priceDisplayKrw) priceDisplayKrw.textContent = '';
             if (kimchiPremiumDisplay) { kimchiPremiumDisplay.textContent = '—'; kimchiPremiumDisplay.classList.remove('loading'); }
           });
       }
@@ -703,6 +1010,23 @@
         return Math.floor(n).toLocaleString('ko-KR') + ' 원';
       }
 
+      function updateWalletKrwDisplays() {
+        function krwFromTorn(torn) {
+          if (torn == null || torn <= 0 || tornPriceKrw <= 0) return 0;
+          var krw = torn * tornPriceKrw;
+          if (kimchiPremiumAuto != null) krw = krw * (1 + kimchiPremiumAuto / 100);
+          return krw;
+        }
+        var staked = parseDisplayNum(walletStakedDisplay ? walletStakedDisplay.textContent : '');
+        var reward = parseDisplayNum(unclaimedRewardDisplay ? unclaimedRewardDisplay.textContent : '');
+        var walletBal = parseDisplayNum(walletTornBalanceDisplay ? walletTornBalanceDisplay.textContent : '');
+        var sum = parseDisplayNum(totalHoldingsSumDisplay ? totalHoldingsSumDisplay.textContent : '');
+        if (walletStakedKrwEl) walletStakedKrwEl.textContent = staked > 0 ? formatKrw(krwFromTorn(staked)) : '';
+        if (unclaimedRewardKrwEl) unclaimedRewardKrwEl.textContent = reward > 0 ? formatKrw(krwFromTorn(reward)) : '';
+        if (walletTornBalanceKrwEl) walletTornBalanceKrwEl.textContent = walletBal > 0 ? formatKrw(krwFromTorn(walletBal)) : '';
+        if (totalHoldingsSumKrwEl) totalHoldingsSumKrwEl.textContent = sum > 0 ? formatKrw(krwFromTorn(sum)) : '';
+      }
+
       function calculate() {
         const userTorn = parseNum(userTornInput.value);
         const totalPool = parseNum(totalPoolInput.value);
@@ -715,10 +1039,18 @@
         shareBar.style.width = sharePercent + '%';
         shareText.textContent = sharePercent.toFixed(4) + '%';
 
+        updateTotalHoldingsSum();
+
+        if (totalPoolKrwEl) {
+          var poolKrw = (totalPool > 0 && tornPriceKrw > 0) ? totalPool * tornPriceKrw : 0;
+          if (poolKrw > 0 && kimchiPremiumAuto != null) poolKrw = poolKrw * (1 + kimchiPremiumAuto / 100);
+          totalPoolKrwEl.textContent = poolKrw > 0 ? formatKrw(poolKrw) : '';
+        }
+
         if (userTornKrwEl) {
           var userKrw = (userTorn > 0 && tornPriceKrw > 0) ? userTorn * tornPriceKrw : 0;
           if (userKrw > 0 && kimchiPremiumAuto != null) userKrw = userKrw * (1 + kimchiPremiumAuto / 100);
-          userTornKrwEl.textContent = userKrw > 0 ? '약 ' + formatKrw(userKrw) : '약 — 원';
+          userTornKrwEl.textContent = userKrw > 0 ? formatKrw(userKrw) : '';
         }
 
         function updateRow(ethAmount, el, krwEl) {
@@ -759,10 +1091,34 @@
         });
       }
 
-      [userTornInput, totalPoolInput].forEach(function (el) {
-        el.addEventListener('input', calculate);
-        el.addEventListener('change', calculate);
-      });
+      function formatTotalPoolWithCommas() {
+        if (!totalPoolInput) return;
+        var raw = String(totalPoolInput.value).replace(/,/g, '').replace(/\s/g, '');
+        var num = parseFloat(raw);
+        if (!isNaN(num) && num >= 0) totalPoolInput.value = Math.floor(num).toLocaleString('en');
+      }
+      userTornInput.addEventListener('input', calculate);
+      userTornInput.addEventListener('change', calculate);
+      if (totalPoolInput) {
+        totalPoolInput.addEventListener('input', calculate);
+        totalPoolInput.addEventListener('blur', formatTotalPoolWithCommas);
+        totalPoolInput.addEventListener('change', function () {
+          formatTotalPoolWithCommas();
+          calculate();
+        });
+      }
+
+      if (walletAddressInput) {
+        walletAddressInput.addEventListener('input', onWalletAddressChange);
+        walletAddressInput.addEventListener('blur', onWalletAddressChange);
+        try {
+          var saved = localStorage.getItem(WALLET_ADDRESS_KEY);
+          if (saved && (saved = saved.trim())) {
+            walletAddressInput.value = saved;
+            onWalletAddressChange();
+          }
+        } catch (e) {}
+      }
 
       updateMarketData();
       calculate();

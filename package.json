@@ -1,0 +1,13 @@
+{
+  "name": "torn-calc",
+  "version": "1.0.0",
+  "description": "Tornado Cash 스테이킹 리워드 조회",
+  "main": "query-staking-reward.js",
+  "scripts": {
+    "reward": "node query-staking-reward.js",
+    "reward:query": "node query-staking-reward.js"
+  },
+  "dependencies": {
+    "ethers": "^6.13.0"
+  }
+}
