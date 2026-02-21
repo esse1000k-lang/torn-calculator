@@ -481,6 +481,14 @@
       margin-bottom: 0.75rem;
       padding-top: 0.25rem;
     }
+    .result-section-title .result-section-price {
+      text-transform: none;
+      letter-spacing: 0;
+      margin-left: 0.35em;
+      font-weight: 400;
+      font-size: 0.75em;
+      color: var(--text-muted);
+    }
 
     .result-section-divider {
       height: 2px;
@@ -742,7 +750,7 @@
       </div>
       <div class="results">
         <div class="result-panel result-panel--active" data-panel="eth" role="tabpanel">
-          <div class="result-section-title">ETH 출금</div>
+          <div class="result-section-title">ETH <span class="result-section-price" id="dividendEthPriceDisplay">—</span></div>
           <div class="result-row">
             <span class="result-label">0.1 ETH 출금 시</span>
             <div class="result-value-wrap">
@@ -773,7 +781,7 @@
           </div>
         </div>
         <div class="result-panel" data-panel="wbtc" role="tabpanel">
-          <div class="result-section-title">WBTC 출금</div>
+          <div class="result-section-title">WBTC <span class="result-section-price" id="dividendWbtcPriceDisplay">—</span></div>
           <div class="result-row">
             <span class="result-label">0.1 WBTC 출금 시</span>
             <div class="result-value-wrap">
@@ -797,7 +805,7 @@
           </div>
         </div>
         <div class="result-panel" data-panel="usd" role="tabpanel">
-          <div class="result-section-title">USD 출금</div>
+          <div class="result-section-title">USD <span class="result-section-price" id="dividendUsdPriceDisplay">—</span></div>
           <div class="result-row">
             <span class="result-label">100 USD 출금 시</span>
             <div class="result-value-wrap">
@@ -832,7 +840,7 @@
 
     <p class="footer-note">
       <a href="https://ipfs.io/ipfs/bafybeib4rg5gx7plrvzasrrqa3tcb3tnzm2goxhteaxsbem6hjpzsgihbu/" target="_blank" rel="noopener">토네이도 캐시 웹사이트</a>에서 스테이킹 및 청구가 가능합니다. <span class="hint">기타 문의는 <a href="https://t.me/koreatornadocash" target="_blank" rel="noopener">한국 텔레그램 방</a>으로 부탁드립니다.</span><br><br>
-      Copyright 2005-2026 TornFi. All rights reserved.
+      Copyright 2025-2026 TornFi. All rights reserved.
     </p>
   </div>
 
@@ -872,6 +880,9 @@
       const priceDisplayLeftKrw = document.getElementById('priceDisplayLeftKrw');
       const priceDisplayCenterKrw = document.getElementById('priceDisplayCenterKrw');
       const priceDisplayRightKrw = document.getElementById('priceDisplayRightKrw');
+      const dividendEthPriceDisplay = document.getElementById('dividendEthPriceDisplay');
+      const dividendWbtcPriceDisplay = document.getElementById('dividendWbtcPriceDisplay');
+      const dividendUsdPriceDisplay = document.getElementById('dividendUsdPriceDisplay');
       const kimchiPremiumDisplay = document.getElementById('kimchiPremiumDisplay');
       const userTornKrwEl = document.getElementById('userTornKrw');
       const walletAddressInput = document.getElementById('walletAddress');
@@ -1194,6 +1205,9 @@
         if (priceDisplayLeft) priceDisplayLeft.textContent = '— 로딩 중';
         if (priceDisplayCenter) priceDisplayCenter.textContent = '— 로딩 중';
         if (priceDisplayRight) priceDisplayRight.textContent = '— 로딩 중';
+        if (dividendEthPriceDisplay) dividendEthPriceDisplay.textContent = '—';
+        if (dividendWbtcPriceDisplay) dividendWbtcPriceDisplay.textContent = '—';
+        if (dividendUsdPriceDisplay) dividendUsdPriceDisplay.textContent = '—';
         if (priceDisplayLeftKrw) priceDisplayLeftKrw.textContent = '';
         if (priceDisplayCenterKrw) priceDisplayCenterKrw.textContent = '';
         if (priceDisplayRightKrw) priceDisplayRightKrw.textContent = '';
@@ -1258,6 +1272,23 @@
             if (priceDisplayLeftKrw) priceDisplayLeftKrw.textContent = formatKrwFromUsd(tornPriceUsdDex);
             if (priceDisplayCenterKrw) priceDisplayCenterKrw.textContent = formatKrwFromUsd(res.dexCexAvg);
             if (priceDisplayRightKrw) priceDisplayRightKrw.textContent = formatKrwFromUsd(tornPriceUsdCex);
+            var ethKrw = (ethPriceUsd > 0 && krwPerUsd > 0) ? ethPriceUsd * krwPerUsd : 0;
+            if (dividendEthPriceDisplay) {
+              var usdStr = ethPriceUsd > 0 ? '$' + Math.floor(ethPriceUsd).toLocaleString('en') : '—';
+              var ethKrwStr = ethKrw > 0 ? ' (' + Math.floor(ethKrw).toLocaleString('ko-KR') + ' 원)' : '';
+              dividendEthPriceDisplay.textContent = usdStr + ethKrwStr;
+            }
+            var wbtcKrw = (btcPriceUsd > 0 && krwPerUsd > 0) ? btcPriceUsd * krwPerUsd : 0;
+            if (dividendWbtcPriceDisplay) {
+              var wbtcUsdStr = btcPriceUsd > 0 ? '$' + Math.floor(btcPriceUsd).toLocaleString('en') : '—';
+              var wbtcKrwStr = wbtcKrw > 0 ? ' (' + Math.floor(wbtcKrw).toLocaleString('ko-KR') + ' 원)' : '';
+              dividendWbtcPriceDisplay.textContent = wbtcUsdStr + wbtcKrwStr;
+            }
+            if (dividendUsdPriceDisplay && krwPerUsd > 0) {
+              dividendUsdPriceDisplay.textContent = '$1 (' + Math.floor(krwPerUsd).toLocaleString('ko-KR') + ' 원)';
+            } else if (dividendUsdPriceDisplay) {
+              dividendUsdPriceDisplay.textContent = '—';
+            }
             calculate();
           })
           .catch(function (err) {
