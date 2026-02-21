@@ -85,7 +85,7 @@
     }
 
     .logo {
-      font-size: 1.35rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: var(--neon);
       text-shadow: 0 0 20px var(--neon-glow);
@@ -95,7 +95,7 @@
     }
 
     .subtitle {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--text-muted);
       letter-spacing: 0.12em;
@@ -284,6 +284,86 @@
       font-size: 0.75em;
       color: var(--text-muted);
       font-weight: 400;
+    }
+
+    .input-group label + .price-cols {
+      margin-top: 0.5rem;
+    }
+    .price-krw-ref {
+      margin: 0.5rem 0 0 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .price-cols {
+      display: flex;
+      align-items: stretch;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .price-col-arrow {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      color: var(--neon);
+      opacity: 0.7;
+      font-size: 0.55rem;
+      line-height: 1;
+      user-select: none;
+      padding: 0 0.15rem;
+    }
+    .price-col-arrow--red {
+      color: var(--danger);
+    }
+    .price-col {
+      flex: 1;
+      min-width: 6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .price-col-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 0.25rem 0.25rem;
+      width: 100%;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .price-col-hint {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      min-height: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .price-col .data-value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      flex: 1;
+      min-height: 2.75rem;
+      padding: 0.4rem 0.5rem 0.6rem;
+      font-size: 0.95rem;
+    }
+    .price-cols .price-col:first-child .data-value,
+    .price-cols .price-col:last-child .data-value {
+      color: #fff;
+    }
+    .price-col-krw {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 0.25rem 0 0;
+      text-align: center;
+      width: 100%;
     }
 
     .data-value.loading {
@@ -476,17 +556,32 @@
       <img src="favicon.ico" alt="" class="header-logo" onerror="this.src='./logo.png'">
       <div class="header-text">
         <div class="logo">Tornado Cash Reward</div>
-        <div class="subtitle subtitle-telegram">토네이도 캐시 한국 텔레그램방 제공 🇰🇷</div>
+        <div class="subtitle subtitle-telegram">토네이도 캐시 정보, 조회, 배당 v2 - TornFi.com</div>
       </div>
     </header>
 
     <div class="card">
       <div class="card-title">🌪️ 정보</div>
       <div class="input-group">
-        <label>현재 가격 (USD)</label>
-        <div class="data-value data-value--row" id="priceDisplayWrap">
-          <span id="priceDisplay">— 로딩 중</span>
-          <span class="price-krw-ref" id="priceDisplayKrw"></span>
+        <label>현재 가격</label>
+        <div class="data-value data-value--row price-cols" id="priceDisplayWrap">
+          <div class="price-col">
+            <span class="price-col-label">유니스왑</span>
+            <span class="data-value" id="priceDisplayLeft">— 로딩 중</span>
+            <span class="price-col-krw" id="priceDisplayLeftKrw"></span>
+          </div>
+          <span class="price-col-arrow price-col-arrow--red" aria-hidden="true">▶</span>
+          <div class="price-col">
+            <span class="price-col-label">마켓 평균 가격</span>
+            <span class="data-value" id="priceDisplayCenter">— 로딩 중</span>
+            <span class="price-col-krw" id="priceDisplayCenterKrw"></span>
+          </div>
+          <span class="price-col-arrow price-col-arrow--red" aria-hidden="true">◀</span>
+          <div class="price-col">
+            <span class="price-col-label">MEXC</span>
+            <span class="data-value" id="priceDisplayRight">— 로딩 중</span>
+            <span class="price-col-krw" id="priceDisplayRightKrw"></span>
+          </div>
         </div>
       </div>
       <div class="input-group">
@@ -676,8 +771,12 @@
       const krwElsUsd = { 100: document.getElementById('krwUsd100'), 1000: document.getElementById('krwUsd1000'), 10000: document.getElementById('krwUsd10000'), 100000: document.getElementById('krwUsd100000') };
       const totalStakedDisplay = document.getElementById('totalStakedDisplay');
       const priceDisplayWrap = document.getElementById('priceDisplayWrap');
-      const priceDisplay = document.getElementById('priceDisplay');
-      const priceDisplayKrw = document.getElementById('priceDisplayKrw');
+      const priceDisplayLeft = document.getElementById('priceDisplayLeft');
+      const priceDisplayCenter = document.getElementById('priceDisplayCenter');
+      const priceDisplayRight = document.getElementById('priceDisplayRight');
+      const priceDisplayLeftKrw = document.getElementById('priceDisplayLeftKrw');
+      const priceDisplayCenterKrw = document.getElementById('priceDisplayCenterKrw');
+      const priceDisplayRightKrw = document.getElementById('priceDisplayRightKrw');
       const kimchiPremiumDisplay = document.getElementById('kimchiPremiumDisplay');
       const userTornKrwEl = document.getElementById('userTornKrw');
       const walletAddressInput = document.getElementById('walletAddress');
@@ -859,12 +958,43 @@
       }
 
       var tornPriceUsd = 0;
+      var tornPriceUsdDex = 0;
+      var tornPriceUsdCenter = 0;
+      var tornPriceUsdCex = 0;
       var ethPriceUsd = 0;
       var btcPriceUsd = 0;
       var tornPriceKrw = 0;
       var kimchiPremiumAuto = null;
 
       var DEFILLAMA_COINS = 'ethereum:0x77777FeDdddFfC19Ff86DB637967013e6C6A116C,ethereum:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2,ethereum:0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599';
+
+      var UNISWAP_V2_FACTORY = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
+      var WETH_ADDRESS = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
+      var uniswapFactoryAbi = ['function getPair(address tokenA, address tokenB) view returns (address pair)'];
+      var uniswapPairAbi = ['function getReserves() view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)', 'function token0() view returns (address)', 'function token1() view returns (address)'];
+
+      function fetchTornPriceFromUniswap(ethPriceUsd) {
+        if (!window.ethers || !ethPriceUsd || ethPriceUsd <= 0) return Promise.resolve(null);
+        var provider = new ethers.JsonRpcProvider(STAKING_RPC_URL);
+        var factory = new ethers.Contract(UNISWAP_V2_FACTORY, uniswapFactoryAbi, provider);
+        return factory.getPair(TORN_TOKEN_ADDRESS, WETH_ADDRESS)
+          .then(function (pairAddress) {
+            if (!pairAddress || pairAddress === ethers.ZeroAddress) return null;
+            var pair = new ethers.Contract(pairAddress, uniswapPairAbi, provider);
+            return Promise.all([pair.getReserves(), pair.token0()]).then(function (results) {
+              var reserve0 = results[0].reserve0;
+              var reserve1 = results[0].reserve1;
+              var token0 = String(results[1]).toLowerCase();
+              var tornLower = TORN_TOKEN_ADDRESS.toLowerCase();
+              var reserveTorn = token0 === tornLower ? reserve0 : reserve1;
+              var reserveWeth = token0 === tornLower ? reserve1 : reserve0;
+              if (reserveTorn === 0n) return null;
+              var tornPriceInEth = Number(reserveWeth) / Number(reserveTorn);
+              return tornPriceInEth * ethPriceUsd;
+            });
+          })
+          .catch(function () { return null; });
+      }
 
       function fetchPrices() {
         var usdPromise = fetch('https://coins.llama.fi/prices/current/' + DEFILLAMA_COINS)
@@ -874,9 +1004,10 @@
             var tornCoin = coins['ethereum:0x77777FeDdddFfC19Ff86DB637967013e6C6A116C'];
             var ethCoin = coins['ethereum:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'];
             var btcCoin = coins['ethereum:0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'];
-            if (tornCoin && typeof tornCoin.price === 'number') tornPriceUsd = tornCoin.price;
+            var defiLlamaTorn = (tornCoin && typeof tornCoin.price === 'number') ? tornCoin.price : 0;
             if (ethCoin && typeof ethCoin.price === 'number') ethPriceUsd = ethCoin.price;
             if (btcCoin && typeof btcCoin.price === 'number') btcPriceUsd = btcCoin.price;
+            return { defiLlamaTorn: defiLlamaTorn, ethPriceUsd: ethPriceUsd };
           });
         var krwPromise = fetch('https://api.coingecko.com/api/v3/simple/price?ids=tornado-cash,bitcoin&vs_currencies=krw')
           .then(function (res) { return res.json(); })
@@ -884,8 +1015,35 @@
             if (data && data['tornado-cash'] && typeof data['tornado-cash'].krw === 'number') tornPriceKrw = data['tornado-cash'].krw;
             return data && data.bitcoin && typeof data.bitcoin.krw === 'number' ? data.bitcoin.krw : null;
           });
-        return Promise.all([usdPromise, krwPromise]).then(function (results) {
-          return { btcKrw: results[1] };
+        var mexcUrl = 'https://api.mexc.com/api/v3/ticker/price?symbol=TORNUSDT';
+        var mexcPromise = fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(mexcUrl))
+          .then(function (res) { return res.text(); })
+          .then(function (text) {
+            try {
+              var data = typeof text === 'string' ? JSON.parse(text) : text;
+              if (data && data.price != null) {
+                var p = parseFloat(data.price);
+                return isNaN(p) ? null : p;
+              }
+            } catch (e) {}
+            return null;
+          })
+          .catch(function () { return null; });
+        return usdPromise.then(function (llama) {
+          tornPriceUsdCenter = llama.defiLlamaTorn > 0 ? llama.defiLlamaTorn : 0;
+          var uniswapPromise = fetchTornPriceFromUniswap(llama.ethPriceUsd);
+          return Promise.all([Promise.resolve(llama), uniswapPromise, krwPromise, mexcPromise]);
+        }).then(function (results) {
+          var llama = results[0];
+          var uniswapTornUsd = results[1];
+          var btcKrw = results[2];
+          var mexcTornUsd = results[3];
+          tornPriceUsdDex = (typeof uniswapTornUsd === 'number' && uniswapTornUsd > 0) ? uniswapTornUsd : 0;
+          tornPriceUsdCex = (typeof mexcTornUsd === 'number' && mexcTornUsd > 0) ? mexcTornUsd : 0;
+          if (tornPriceUsdDex > 0) tornPriceUsd = tornPriceUsdDex;
+          else if (tornPriceUsdCenter > 0) tornPriceUsd = tornPriceUsdCenter;
+          else if (tornPriceUsdCex > 0) tornPriceUsd = tornPriceUsdCex;
+          return { btcKrw: btcKrw };
         });
       }
 
@@ -917,8 +1075,12 @@
       function updateMarketData() {
         if (totalStakedDisplay) setDataLoading(totalStakedDisplay, true);
         if (priceDisplayWrap) priceDisplayWrap.classList.add('loading');
-        if (priceDisplay) priceDisplay.textContent = '— 로딩 중';
-        if (priceDisplayKrw) priceDisplayKrw.textContent = '';
+        if (priceDisplayLeft) priceDisplayLeft.textContent = '— 로딩 중';
+        if (priceDisplayCenter) priceDisplayCenter.textContent = '— 로딩 중';
+        if (priceDisplayRight) priceDisplayRight.textContent = '— 로딩 중';
+        if (priceDisplayLeftKrw) priceDisplayLeftKrw.textContent = '';
+        if (priceDisplayCenterKrw) priceDisplayCenterKrw.textContent = '';
+        if (priceDisplayRightKrw) priceDisplayRightKrw.textContent = '';
         if (kimchiPremiumDisplay) {
           kimchiPremiumDisplay.textContent = '— 로딩 중';
           kimchiPremiumDisplay.classList.add('loading');
@@ -944,34 +1106,54 @@
             if (totalStakedDisplay) setDataError(totalStakedDisplay, '— ' + msg);
           });
 
+        function formatUsd(price) {
+          if (price == null || price <= 0) return '—';
+          return '$' + (price < 0.01 ? price.toFixed(6) : price.toFixed(2));
+        }
         fetchPrices()
           .then(function (data) {
-            var usdStr = '$' + (tornPriceUsd < 0.01 ? tornPriceUsd.toFixed(6) : tornPriceUsd.toFixed(2));
             if (priceDisplayWrap) priceDisplayWrap.classList.remove('loading');
-            if (priceDisplay) priceDisplay.textContent = usdStr;
-            if (priceDisplayKrw) priceDisplayKrw.textContent = '';
-            return fetchKimchiPremium(data && data.btcKrw ? data.btcKrw : null);
+            if (priceDisplayLeft) priceDisplayLeft.textContent = formatUsd(tornPriceUsdDex);
+            var dexCexAvg = (tornPriceUsdDex > 0 && tornPriceUsdCex > 0) ? (tornPriceUsdDex + tornPriceUsdCex) / 2 : (tornPriceUsdDex > 0 ? tornPriceUsdDex : (tornPriceUsdCex > 0 ? tornPriceUsdCex : null));
+            if (priceDisplayCenter) priceDisplayCenter.textContent = formatUsd(dexCexAvg);
+            if (priceDisplayRight) priceDisplayRight.textContent = formatUsd(tornPriceUsdCex);
+            if (priceDisplayLeftKrw) priceDisplayLeftKrw.textContent = '';
+            if (priceDisplayCenterKrw) priceDisplayCenterKrw.textContent = '';
+            if (priceDisplayRightKrw) priceDisplayRightKrw.textContent = '';
+            var btcKrwForKrw = data && data.btcKrw ? data.btcKrw : null;
+            return fetchKimchiPremium(btcKrwForKrw).then(function (premium) {
+              return { premium: premium, btcKrw: btcKrwForKrw, dexCexAvg: dexCexAvg };
+            });
           })
-          .then(function (premium) {
+          .then(function (res) {
+            var premium = res.premium;
             kimchiPremiumAuto = premium;
             if (kimchiPremiumDisplay) {
               kimchiPremiumDisplay.classList.remove('loading');
               if (premium != null) kimchiPremiumDisplay.textContent = premium + '%';
               else kimchiPremiumDisplay.textContent = '—';
             }
-            if (tornPriceKrw > 0 && priceDisplayKrw) {
-              var krwVal = tornPriceKrw;
-              if (premium != null) krwVal = krwVal * (1 + premium / 100);
-              priceDisplayKrw.textContent = Math.floor(krwVal).toLocaleString('ko-KR') + ' 원';
-            } else if (priceDisplayKrw) priceDisplayKrw.textContent = '';
+            var krwPerUsd = (btcPriceUsd > 0 && res.btcKrw > 0) ? res.btcKrw / btcPriceUsd : 0;
+            if (krwPerUsd > 0 && premium != null) krwPerUsd = krwPerUsd * (1 + premium / 100);
+            function formatKrwFromUsd(usd) {
+              if (usd == null || usd <= 0 || krwPerUsd <= 0) return '';
+              return Math.floor(usd * krwPerUsd).toLocaleString('ko-KR') + ' 원';
+            }
+            if (priceDisplayLeftKrw) priceDisplayLeftKrw.textContent = formatKrwFromUsd(tornPriceUsdDex);
+            if (priceDisplayCenterKrw) priceDisplayCenterKrw.textContent = formatKrwFromUsd(res.dexCexAvg);
+            if (priceDisplayRightKrw) priceDisplayRightKrw.textContent = formatKrwFromUsd(tornPriceUsdCex);
             calculate();
           })
           .catch(function (err) {
             var msg = err.message || '조회 실패';
             if (msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('NetworkError') !== -1 || msg.indexOf('Load failed') !== -1) msg = NETWORK_ERR_MSG;
             if (priceDisplayWrap) { priceDisplayWrap.classList.remove('loading'); priceDisplayWrap.classList.add('error'); }
-            if (priceDisplay) priceDisplay.textContent = '— ' + msg;
-            if (priceDisplayKrw) priceDisplayKrw.textContent = '';
+            if (priceDisplayLeft) priceDisplayLeft.textContent = '— ' + msg;
+            if (priceDisplayCenter) priceDisplayCenter.textContent = '— ' + msg;
+            if (priceDisplayRight) priceDisplayRight.textContent = '— ' + msg;
+            if (priceDisplayLeftKrw) priceDisplayLeftKrw.textContent = '';
+            if (priceDisplayCenterKrw) priceDisplayCenterKrw.textContent = '';
+            if (priceDisplayRightKrw) priceDisplayRightKrw.textContent = '';
             if (kimchiPremiumDisplay) { kimchiPremiumDisplay.textContent = '—'; kimchiPremiumDisplay.classList.remove('loading'); }
           });
       }
